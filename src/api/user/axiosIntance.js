@@ -3,7 +3,7 @@ import axios from "axios";
 // 로컬 개발 api 요청 경로
 // export const API_SERVER = "http://localhost:8080";
 // aws 로드밸런서 api 요청 경로
-export const API_SERVER = "https://api.moisture-village.kro.kr";
+export const API_SERVER = "https://api.moonlight-village.shop/";
 
 export const axiosInstance = axios.create({
   baseURL: API_SERVER,
@@ -25,7 +25,8 @@ const processQueue = (error) => {
   // 대기중인 요청 처리 함수임
   failedQueue.forEach((promise) => {
     // 대기목록을 순환 꺼내면 promise임
-    if (error) promise.reject(error); // 에러발생하면 해당요청은 error를 반환
+    if (error)
+      promise.reject(error); // 에러발생하면 해당요청은 error를 반환
     else promise.resolve(); // 아니면 해당 요청에 토큰 넣어서 재요청
   });
   failedQueue = []; // 완료 후 대기목록 초기화
@@ -77,7 +78,7 @@ axiosInstance.interceptors.response.use(
         console.error(
           "리프레시 요청 자체가 실패 하였습니다.",
           refreshError.response?.status,
-          refreshError.response?.data
+          refreshError.response?.data,
         );
         return Promise.reject(refreshError);
       }
@@ -106,5 +107,5 @@ axiosInstance.interceptors.response.use(
       message: "네트워크 오류가 발생했습니다.",
       originalError: error,
     });
-  }
+  },
 );
